@@ -1,13 +1,8 @@
-import {
-    dbCreateTest,
-    dbDeleteTest,
-    dbSelectTest,
-} from '../prisma/prisma-client';
+import fourChanCore from './scraper/cores/fourchan/fourchan';
 
 async function main() {
-    await dbCreateTest();
-    await dbSelectTest();
-    await dbDeleteTest();
+    await fourChanCore('https://boards.4channel.org/w/2', 5);
 }
 
+console.log('running');
 main();

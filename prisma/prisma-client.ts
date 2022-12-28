@@ -1,15 +1,16 @@
 import { PrismaClient } from '@prisma/client';
-import { DB_Image, Source } from '../src/interfaces/interfaceIndex';
+import { DB_Image, Source } from '../src/interfaces/interfacesIndex';
 
 const prisma = new PrismaClient();
 
-export async function dbCreate(newImage: DB_Image) {
+async function create(newImage: DB_Image) {
     try {
         const image = await prisma.image.create({
             data: newImage,
         });
 
         console.log(image);
+        return image;
     } catch (error) {
         console.log(error);
     }
@@ -17,7 +18,24 @@ export async function dbCreate(newImage: DB_Image) {
     await prisma.$disconnect();
 }
 
-export async function dbRead(page?: number, source?: Source) {
+async function createMany(newImages: DB_Image[]) {
+    for (let i in newImages) {
+        try {
+            const image = await prisma.image.create({
+                data: newImages[i],
+            });
+
+            console.log(image);
+            return image;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    await prisma.$disconnect();
+}
+
+async function read(page?: number, source?: Source) {
     try {
         let images;
         if (page && source) {
@@ -60,11 +78,12 @@ export async function dbRead(page?: number, source?: Source) {
     await prisma.$disconnect();
 }
 
-export async function dbDeleteAll() {
+async function deleteAll() {
     try {
         const images = await prisma.image.deleteMany({});
 
         console.log(images);
+        return images;
     } catch (error) {
         console.log(error);
     }
@@ -72,4 +91,4 @@ export async function dbDeleteAll() {
     await prisma.$disconnect();
 }
 
-export default prisma;
+export default { create, createMany, read, deleteAll };
