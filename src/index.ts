@@ -1,8 +1,7 @@
-import fourChanCore from './scraper/cores/fourchan/fourchan';
+import scraper from './scraper/scraper';
 
 async function main() {
-    await fourChanCore('https://boards.4channel.org/w/2', 5);
+    await scraper();
 }
 
-console.log('running');
 main();

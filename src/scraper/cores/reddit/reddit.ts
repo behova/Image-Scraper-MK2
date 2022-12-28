@@ -1,6 +1,8 @@
 import puppeteer from 'puppeteer';
+import getRedditSource from './sourceList';
 
-let redditCore = async function (sourceUrl: string, scrollAmount: number) {
+let redditCore = async function (scrollAmount: number) {
+    let source = getRedditSource();
     try {
         let result = [];
         //pupeteer init
@@ -9,7 +11,7 @@ let redditCore = async function (sourceUrl: string, scrollAmount: number) {
         const page = await browser.newPage();
 
         //specify url
-        await page.goto(sourceUrl);
+        await page.goto(source);
         console.log('root page loaded');
         await page.waitForNetworkIdle();
 
@@ -40,7 +42,7 @@ let redditCore = async function (sourceUrl: string, scrollAmount: number) {
             const source = await page.$$eval('a', (links) => {
                 let strings = links.map((link) => link.toString());
                 let filtered = strings.filter(
-                    (link) => link.includes('i.redd.it') && link.length < 100,
+                    (link) => link.includes('redd.it') && link.length < 300,
                 );
                 return Array.from(new Set(filtered));
             });

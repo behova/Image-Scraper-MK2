@@ -7,6 +7,6 @@ import redditCore from './reddit';
 // });
 
 test('should output list of [name,[url] key-pairs', async () => {
-    const data = await redditCore('https://www.reddit.com/r/wallpapers/', 5);
+    const data = await redditCore(5);
     expect(data).toBeInstanceOf(Array);
 }, 120000);

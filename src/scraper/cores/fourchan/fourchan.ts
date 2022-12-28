@@ -1,6 +1,8 @@
 import puppeteer from 'puppeteer';
+import getFourChanSource from './sourceList';
 
-let fourChanCore = async function (sourceUrl: string, scrollAmount: number) {
+let fourChanCore = async function (scrollAmount: number) {
+    let source = getFourChanSource();
     try {
         let result = [];
         //pupeteer init
@@ -9,7 +11,7 @@ let fourChanCore = async function (sourceUrl: string, scrollAmount: number) {
         const page = await browser.newPage();
 
         //specify url
-        await page.goto(sourceUrl);
+        await page.goto(source);
         console.log('root page loaded');
         await page.waitForNetworkIdle();
 
