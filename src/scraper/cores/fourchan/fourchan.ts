@@ -1,12 +1,12 @@
+import { link } from 'fs';
 import puppeteer from 'puppeteer';
 import getFourChanSource from './sourceList';
 
-let fourChanCore = async function (scrollAmount: number) {
+let fourChanCore = async function (scrollAmount: number, headless: boolean) {
     let source = getFourChanSource();
     try {
-        let result = [];
         //pupeteer init
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({ headless: headless });
         console.log('launching puppeteer');
         const page = await browser.newPage();
 
@@ -25,15 +25,24 @@ let fourChanCore = async function (scrollAmount: number) {
 
         //cop all image links
         const imgLinks = await page.$$eval('a', (links) => {
-            let strings = links.map((link) => link.toString());
-            let filtered = strings.filter(
-                (link) => link.includes('.jpg') || link.includes('.png'),
-            );
-            return Array.from(new Set(filtered));
+            let result = [];
+            for (let l in links) {
+                let pair = [];
+                let string = links[l].toString();
+                if (string.includes('.jpg') || string.includes('.png')) {
+                    pair.push(links[l].innerText.toString());
+                    pair.push(links[l].toString());
+
+                    if (pair[0]) {
+                        result.push(pair);
+                    }
+                }
+            }
+            return result;
         });
 
         await browser.close();
-        console.log(imgLinks);
+
         return imgLinks;
     } catch (error) {
         console.log(error);

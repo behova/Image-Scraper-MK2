@@ -1,12 +1,12 @@
 import puppeteer from 'puppeteer';
 import getRedditSource from './sourceList';
 
-let redditCore = async function (scrollAmount: number) {
+let redditCore = async function (scrollAmount: number, headless: boolean) {
     let source = getRedditSource();
     try {
         let result = [];
         //pupeteer init
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({ headless: headless });
         console.log('launching puppeteer');
         const page = await browser.newPage();
 
@@ -46,7 +46,7 @@ let redditCore = async function (scrollAmount: number) {
                 );
                 return Array.from(new Set(filtered));
             });
-            let name = imgLinks[link].split('/');
+            let name = imgLinks[link].split('/'); //gets the name from link
             name.pop();
             obj.push(name.pop());
             obj.push(source);
@@ -54,7 +54,6 @@ let redditCore = async function (scrollAmount: number) {
         }
 
         await browser.close();
-        console.log(result);
 
         return result;
     } catch (error) {

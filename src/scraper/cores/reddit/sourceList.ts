@@ -2,7 +2,6 @@ const redditSources = [
     'https://www.reddit.com/r/wallpapers/',
     'https://www.reddit.com/r/wallpaper/',
     'https://www.reddit.com/r/wallpaperdump/',
-    'https://www.reddit.com/r/wallpaperengine/',
 ];
 
 function getRedditSource() {
