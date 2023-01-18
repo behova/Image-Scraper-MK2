@@ -1,5 +1,5 @@
 import prismaClient from './prisma-client';
-import { DB_Image } from '../src/interfaces/interfacesIndex';
+import { DB_Image } from '../interfaces/interfacesIndex';
 
 const image: DB_Image = {
     thumbURL: 'http.///youraregay/name/thumb',

@@ -1,4 +1,3 @@
-import { link } from 'fs';
 import puppeteer from 'puppeteer';
 import getFourChanSource from './sourceList';
 
@@ -29,10 +28,15 @@ let fourChanCore = async function (scrollAmount: number, headless: boolean) {
             for (let l in links) {
                 let pair = [];
                 let string = links[l].toString();
+                //filter
                 if (string.includes('.jpg') || string.includes('.png')) {
+                    //wrapper for conistent formatting
+                    let wrapper = [];
                     pair.push(links[l].innerText.toString());
-                    pair.push(links[l].toString());
+                    wrapper.push(links[l].toString());
+                    pair.push(wrapper);
 
+                    //if link text isn't blank
                     if (pair[0]) {
                         result.push(pair);
                     }

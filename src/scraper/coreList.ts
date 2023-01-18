@@ -3,9 +3,11 @@ import redditCore from './cores/reddit/reddit';
 
 const coreList = [fourChanCore, redditCore];
 
-function getCore() {
+export function getCore() {
     let number = Math.floor(Math.random() * coreList.length);
     return coreList[number];
 }
 
-export default getCore;
+export function getScrollAmount() {
+    return Math.floor(Math.random() * (20 - 5) + 5);
+}

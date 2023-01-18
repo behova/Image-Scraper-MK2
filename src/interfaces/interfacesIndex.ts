@@ -6,6 +6,11 @@ export interface DB_Image {
     pallet: string[];
 }
 
+export interface ProcessEnv {
+    DATABASE_URL: string;
+    IMAGES_PATH: string;
+}
+
 export enum Source {
     REDDIT = 1,
     FOURCHAN,

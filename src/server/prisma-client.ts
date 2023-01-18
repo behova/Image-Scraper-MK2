@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { DB_Image, Source } from '../src/interfaces/interfacesIndex';
+import { DB_Image, Source } from '../interfaces/interfacesIndex';
 
 const prisma = new PrismaClient();
 
@@ -26,7 +26,6 @@ async function createMany(newImages: DB_Image[]) {
             });
 
             console.log(image);
-            return image;
         } catch (error) {
             console.log(error);
         }
