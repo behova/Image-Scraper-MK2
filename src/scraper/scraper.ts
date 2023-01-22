@@ -3,6 +3,7 @@ import { setTimeout } from 'timers/promises';
 import { DB_Image } from '../interfaces/interfacesIndex';
 import { getCore, getScrollAmount } from './coreList';
 import sharpProcess from './processing/sharpProcess';
+import createPallet from './processing/createPallet';
 
 async function verifyFile(path: string) {
     if (fs.existsSync(path)) {
@@ -37,7 +38,7 @@ async function scraper() {
                 object.source = data[i][1][j];
                 object.thumbURL = '';
                 object.fullURL = '';
-                object.pallet = ['test', 'test', 'test'];
+                object.pallet = '';
 
                 const fullURL = await sharpProcess(data[i][1][j]);
                 if (fullURL !== undefined) {
@@ -46,6 +47,10 @@ async function scraper() {
 
                     let verfied = await verifyFile(object.fullURL);
                     if (verfied) {
+                        const file = fs.readFileSync(object.thumbURL);
+                        const pallet = createPallet(file);
+                        object.pallet = pallet;
+
                         objects.push(object);
                     }
                 }

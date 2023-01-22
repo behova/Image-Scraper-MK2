@@ -78,7 +78,8 @@ function createPallet(buffer: Buffer) {
     };
 
     let result = quantization(pArray, 0);
+    let stringResult = result.join();
 
-    return result;
+    return stringResult;
 }
 export default createPallet;

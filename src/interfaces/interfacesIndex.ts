@@ -3,7 +3,7 @@ export interface DB_Image {
     fullURL: string;
     name: string;
     source: string;
-    pallet: string[];
+    pallet: string;
 }
 
 export interface ProcessEnv {

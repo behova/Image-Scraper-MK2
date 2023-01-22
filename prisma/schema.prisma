@@ -16,7 +16,7 @@ model Image {
   fullURL String @unique
   name String
   source String
-  pallet String[]
+  pallet String
   createdAt DateTime @default(now())
 
 }

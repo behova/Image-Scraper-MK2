@@ -34,6 +34,7 @@ async function createMany(newImages: DB_Image[]) {
     await prisma.$disconnect();
 }
 
+//read untested
 async function read(page?: number, source?: Source) {
     try {
         let images;
