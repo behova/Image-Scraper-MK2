@@ -4,7 +4,7 @@ import getRedditSource from './sourceList.js';
 let redditCore = async function (scrollAmount: number, headless: boolean) {
     let source = getRedditSource();
     try {
-        let result = [];
+        let result: string[][] = [];
         //pupeteer init
         const browser = await puppeteer.launch({ headless: headless });
         console.log('launching puppeteer');
@@ -32,7 +32,7 @@ let redditCore = async function (scrollAmount: number, headless: boolean) {
             return Array.from(new Set(filtered));
         });
         for (let link in imgLinks) {
-            let obj = [];
+            //let obj: string[] = [];
             await page.goto(imgLinks[link]);
             await page.keyboard.press('PageDown');
             await page.keyboard.press('PageDown');
@@ -48,9 +48,15 @@ let redditCore = async function (scrollAmount: number, headless: boolean) {
             });
             let name = imgLinks[link].split('/'); //gets the name from link
             name.pop();
-            obj.push(name.pop());
-            obj.push(source);
-            result.push(obj);
+            let newName = name.pop()?.toString() || name.join();
+
+            // create key-pair for each name/image-source
+            for (let i in source) {
+                let obj: string[] = [];
+                obj.push(newName);
+                obj.push(source[i]);
+                result.push(obj);
+            }
         }
 
         await browser.close();

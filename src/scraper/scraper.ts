@@ -33,32 +33,30 @@ async function scraper() {
 
     if (data !== undefined) {
         for (let i in data) {
-            for (let j in data[i][1]) {
-                let object = {} as DB_Image;
-                object.name = data[i][0];
-                object.source = data[i][1][j];
-                object.thumbURL = '';
-                object.fullURL = '';
-                object.pallet = '';
+            let object = {} as DB_Image;
+            object.name = data[i][0];
+            object.source = data[i][1];
+            object.thumbURL = '';
+            object.fullURL = '';
+            object.pallet = '';
 
-                //check database if source already exists before running sharp
-                const exists = await prisma.findUnique(object.source);
+            //check database if source already exists before running sharp
+            const exists = await prisma.findUnique(object.source);
 
-                if (exists === null) {
-                    const fullURL = await sharpProcess(data[i][1][j]);
+            if (exists === null) {
+                const fullURL = await sharpProcess(data[i][1]);
 
-                    if (fullURL !== undefined) {
-                        object.fullURL = `${fullURL}.png`;
-                        object.thumbURL = `${fullURL}-thumb.jpeg`;
+                if (fullURL !== undefined) {
+                    object.fullURL = `${fullURL}.png`;
+                    object.thumbURL = `${fullURL}-thumb.jpeg`;
 
-                        let verfied = await verifyFile(object.fullURL);
-                        if (verfied) {
-                            const file = fs.readFileSync(object.thumbURL);
-                            const pallet = createPallet(file);
-                            object.pallet = pallet;
+                    let verfied = await verifyFile(object.fullURL);
+                    if (verfied) {
+                        const file = fs.readFileSync(object.thumbURL);
+                        const pallet = createPallet(file);
+                        object.pallet = pallet;
 
-                            objects.push(object);
-                        }
+                        objects.push(object);
                     }
                 }
             }

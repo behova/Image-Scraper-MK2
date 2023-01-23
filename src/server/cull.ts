@@ -17,8 +17,8 @@ async function cull(size: number, path: string) {
                     let fullPath = imagesToDelete[i].fullURL;
                     let thumbPath = imagesToDelete[i].thumbURL;
 
-                    fs.rmSync(fullPath);
-                    fs.rmSync(thumbPath);
+                    fs.rmSync(fullPath, { force: true });
+                    fs.rmSync(thumbPath, { force: true });
 
                     rmFromDB.push(fullPath);
                 }
