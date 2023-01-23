@@ -15,8 +15,8 @@ async function sharpProcess(url: string) {
             envPath = process.env.IMAGES_PATH;
         } else {
             console.log('no ENV variable loaded for path');
-            //make this more generic
-            envPath = `${__dirname}/../../../image_files`;
+
+            envPath = `${__dirname}/../../../image_files_test`;
         }
 
         const path = Path.resolve(envPath, fileName);

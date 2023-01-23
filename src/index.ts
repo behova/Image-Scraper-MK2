@@ -4,9 +4,9 @@ import prisma from './server/prisma-client.js';
 import { CronJob } from 'cron';
 import cull from './server/cull.js';
 
-async function main() {
-    dotenv.config(); //load environment variables from .env
+dotenv.config(); //load environment variables from .env
 
+async function main() {
     let objects = await scraper();
 
     try {
@@ -17,8 +17,17 @@ async function main() {
     }
 }
 
-async function runCull(sizeToCullAt: number, path: string) {
-    let culled = await cull(sizeToCullAt, path);
+async function runCull(sizeToCullAt: number) {
+    let envPath;
+    if (process.env.IMAGES_PATH) {
+        envPath = process.env.IMAGES_PATH;
+    } else {
+        console.log('no ENV variable loaded for path');
+
+        envPath = `${__dirname}/../../../image_files_test`;
+    }
+
+    let culled = await cull(sizeToCullAt, envPath);
 
     culled
         ? console.log(`culled files`, culled.length)
@@ -36,7 +45,7 @@ const scraperTimer = new CronJob('0 0 */4 * * *', function () {
 });
 
 const cullTimer = new CronJob('0 0 2 * * *', function () {
-    runCull(3e10, '/home/zu/Projects/img-scraper-12-26/image_files');
+    runCull(3e10);
 });
 
 scraperTimer.start();
