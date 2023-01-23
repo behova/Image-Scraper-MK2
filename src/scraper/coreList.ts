@@ -1,5 +1,5 @@
-import fourChanCore from './cores/fourchan/fourchan';
-import redditCore from './cores/reddit/reddit';
+import fourChanCore from './cores/fourchan/fourchan.js';
+import redditCore from './cores/reddit/reddit.js';
 
 const coreList = [fourChanCore, redditCore];
 

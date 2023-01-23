@@ -6,7 +6,7 @@ const image: DB_Image = {
     fullURL: 'http.///youraregay/name/full',
     name: 'name',
     source: 'REDDIT',
-    pallet: ['#ffff', '#96969'],
+    pallet: '#ffff, #96969',
 };
 
 test('should create DBimage', async () => {

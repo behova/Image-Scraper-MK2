@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { DB_Image, Source } from '../interfaces/interfacesIndex';
+import { DB_Image, Source } from '../interfaces/interfacesIndex.js';
 
 const prisma = new PrismaClient();
 
@@ -78,6 +78,55 @@ async function read(page?: number, source?: Source) {
     await prisma.$disconnect();
 }
 
+async function findUnique(url: string) {
+    try {
+        const result = await prisma.image.findFirst({
+            where: {
+                source: url,
+            },
+        });
+
+        return result;
+    } catch (error) {
+        console.log('getCull', error);
+    }
+}
+
+async function getCull() {
+    try {
+        const count = await prisma.image.count();
+
+        let images = await prisma.image.findMany({
+            take: Math.floor(count / 3),
+        });
+
+        return images;
+    } catch (error) {
+        console.log('getCull', error);
+    }
+}
+
+async function deleteMany(images: string[]) {
+    try {
+        let deletedImages = [];
+
+        for (let i in images) {
+            let deleted = await prisma.image.delete({
+                where: {
+                    fullURL: images[i],
+                },
+            });
+            deletedImages.push(deleted);
+        }
+
+        return deletedImages;
+    } catch (error) {
+        console.log(error);
+    }
+
+    await prisma.$disconnect();
+}
+
 async function deleteAll() {
     try {
         const images = await prisma.image.deleteMany({});
@@ -91,4 +140,12 @@ async function deleteAll() {
     await prisma.$disconnect();
 }
 
-export default { create, createMany, read, deleteAll };
+export default {
+    create,
+    createMany,
+    read,
+    deleteAll,
+    getCull,
+    deleteMany,
+    findUnique,
+};

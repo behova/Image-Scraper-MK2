@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import getFourChanSource from './sourceList';
+import getFourChanSource from './sourceList.js';
 
 let fourChanCore = async function (scrollAmount: number, headless: boolean) {
     let source = getFourChanSource();

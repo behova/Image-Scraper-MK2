@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import getRedditSource from './sourceList';
+import getRedditSource from './sourceList.js';
 
 let redditCore = async function (scrollAmount: number, headless: boolean) {
     let source = getRedditSource();

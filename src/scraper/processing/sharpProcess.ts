@@ -1,7 +1,7 @@
 import sharp, { strategy } from 'sharp';
 import Path from 'path';
 import { nanoid } from 'nanoid';
-import createBuffer from './createBuffer';
+import createBuffer from './createBuffer.js';
 
 async function sharpProcess(url: string) {
     try {
