@@ -49,4 +49,6 @@ const cullTimer = new CronJob('0 0 2 * * *', function () {
 });
 
 scraperTimer.start();
+console.log('started scraper timer');
 cullTimer.start();
+console.log('started culltimer');
