@@ -41,6 +41,7 @@ let fourChanCore = async function (scrollAmount: number, headless: boolean) {
             }
             return result;
         });
+        await page.close();
 
         await browser.close();
 

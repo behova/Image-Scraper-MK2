@@ -27,7 +27,9 @@ async function cull(size: number, path: string) {
                 console.log('problem with retrieving images to delete');
             }
         }
-    } catch (error) {}
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export default cull;

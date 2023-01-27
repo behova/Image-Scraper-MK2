@@ -19,19 +19,22 @@ async function create(newImage: DB_Image) {
 }
 
 async function createMany(newImages: DB_Image[]) {
+    let upload = 0;
+
     for (let i in newImages) {
         try {
             const image = await prisma.image.create({
                 data: newImages[i],
             });
-
-            console.log(image);
+            if (image) {
+                upload += 1;
+            }
         } catch (error) {
             console.log(error);
         }
     }
-
     await prisma.$disconnect();
+    return upload;
 }
 
 //read untested
@@ -90,6 +93,7 @@ async function findUnique(url: string) {
     } catch (error) {
         console.log('getCull', error);
     }
+    await prisma.$disconnect();
 }
 
 async function getCull() {
@@ -104,6 +108,8 @@ async function getCull() {
     } catch (error) {
         console.log('getCull', error);
     }
+
+    await prisma.$disconnect();
 }
 
 async function deleteMany(images: string[]) {

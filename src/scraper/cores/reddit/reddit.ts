@@ -32,14 +32,14 @@ let redditCore = async function (scrollAmount: number, headless: boolean) {
             return Array.from(new Set(filtered));
         });
         for (let link in imgLinks) {
-            //let obj: string[] = [];
-            await page.goto(imgLinks[link]);
-            await page.keyboard.press('PageDown');
-            await page.keyboard.press('PageDown');
-            await page.keyboard.press('PageDown');
-            await page.keyboard.press('PageDown');
+            let imagePage = await browser.newPage();
+            await imagePage.goto(imgLinks[link]);
+            await imagePage.keyboard.press('PageDown');
+            await imagePage.keyboard.press('PageDown');
+            await imagePage.keyboard.press('PageDown');
+            await imagePage.keyboard.press('PageDown');
 
-            const source = await page.$$eval('a', (links) => {
+            const source = await imagePage.$$eval('a', (links) => {
                 let strings = links.map((link) => link.toString());
                 let filtered = strings.filter(
                     (link) => link.includes('redd.it') && link.length < 300,
@@ -57,7 +57,10 @@ let redditCore = async function (scrollAmount: number, headless: boolean) {
                 obj.push(source[i]);
                 result.push(obj);
             }
+
+            await imagePage.close();
         }
+        await page.close();
 
         await browser.close();
 

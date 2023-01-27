@@ -7,11 +7,13 @@ import cull from './server/cull.js';
 dotenv.config(); //load environment variables from .env
 
 async function main() {
-    let objects = await scraper();
-
     try {
-        let upload = prisma.createMany(objects);
-        console.log(upload);
+        let objects = await scraper();
+
+        if (objects) {
+            let upload = await prisma.createMany(objects);
+            console.log(`uploaded ${upload} Images`);
+        }
     } catch (error) {
         console.log(error);
     }
@@ -48,7 +50,8 @@ const cullTimer = new CronJob('0 0 2 * * *', function () {
     runCull(3e10);
 });
 
-scraperTimer.start();
-console.log('started scraper timer');
-cullTimer.start();
-console.log('started culltimer');
+// scraperTimer.start();
+// console.log('started scraper timer');
+// cullTimer.start();
+// console.log('started culltimer');
+main();
