@@ -1,10 +1,8 @@
 import fs from 'fs';
-import { setTimeout } from 'timers/promises';
 import { DB_Image } from '../interfaces/interfacesIndex.js';
 import { getCore, getScrollAmount } from './coreList.js';
 import prisma from '../server/prisma-client.js';
 import sharpProcess from './processing/sharpProcess.js';
-import createPallet from './processing/createPallet.js';
 
 //needs try-catch add finally blocks
 
@@ -40,7 +38,7 @@ async function scraper() {
         const core = getCore();
         const scrollAmount = getScrollAmount();
 
-        const data = await core(scrollAmount, false);
+        const data = await core(scrollAmount, true);
 
         let duplicateLog = 0;
 
