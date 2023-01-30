@@ -1,9 +1,12 @@
 import getFolderSize from 'get-folder-size';
 import prisma from './prisma-client.js';
 import fs from 'fs';
+import { env } from '../interfaces/interfacesIndex.js';
 
-async function cull(size: number, path: string) {
+async function cull(size: number) {
     try {
+        let path = env.IMAGES_PATH;
+
         const totalSize = await getFolderSize.loose(path);
         console.log(totalSize);
         let rmFromDB = [];

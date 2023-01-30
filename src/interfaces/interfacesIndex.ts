@@ -1,3 +1,12 @@
+import { cleanEnv, str } from 'envalid';
+
+export const env = cleanEnv(process.env, {
+    NODE_ENV: str({
+        choices: ['development', 'production'],
+    }),
+    IMAGES_PATH: str(),
+});
+
 export interface DB_Image {
     thumbURL: string;
     fullURL: string;

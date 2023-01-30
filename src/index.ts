@@ -13,6 +13,7 @@ async function main() {
         if (objects) {
             let upload = await prisma.createMany(objects);
             console.log(`uploaded ${upload} Images`);
+            return true;
         }
     } catch (error) {
         console.log(error);
@@ -20,37 +21,30 @@ async function main() {
 }
 
 async function runCull(sizeToCullAt: number) {
-    let envPath;
-    if (process.env.IMAGES_PATH) {
-        envPath = process.env.IMAGES_PATH;
-    } else {
-        console.log('no ENV variable loaded for path');
-
-        envPath = `${__dirname}/../../../image_files_test`;
-    }
-
-    let culled = await cull(sizeToCullAt, envPath);
+    let culled = await cull(sizeToCullAt);
 
     culled
         ? console.log(`culled files`, culled.length)
         : console.log('didnt cull any files');
 }
 
-const scraperTimer = new CronJob('0 0 */4 * * *', function () {
-    const delay = Math.floor(Math.random() * (3.6e6 - 300000) + 300000);
+function index() {
+    const scraperTimer = new CronJob('0 0 */4 * * *', function () {
+        const delay = Math.floor(Math.random() * (3.6e6 - 300000) + 300000);
 
-    setTimeout(() => {
-        main();
-    }, delay);
+        setTimeout(main, delay);
 
-    console.log(`running scraper in ${delay / 60000} minutes`);
-});
+        console.log(`running scraper in ${Math.floor(delay / 60000)} minutes`);
+    });
 
-const cullTimer = new CronJob('0 0 2 * * *', function () {
-    runCull(3e10);
-});
+    const cullTimer = new CronJob('0 0 2 * * *', async function () {
+        await runCull(3e10);
+    });
 
-scraperTimer.start();
-console.log('started scraper timer');
-cullTimer.start();
-console.log('started culltimer');
+    scraperTimer.start();
+    console.log('started scraper timer');
+    cullTimer.start();
+    console.log('started culltimer');
+}
+
+index();

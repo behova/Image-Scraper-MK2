@@ -1,7 +1,8 @@
-import sharp, { strategy } from 'sharp';
+import sharp from 'sharp';
 import Path from 'path';
 import { nanoid } from 'nanoid';
 import createBuffer from './createBuffer.js';
+import { env } from '../../interfaces/interfacesIndex.js';
 
 async function sharpProcess(url: string) {
     try {
@@ -10,14 +11,7 @@ async function sharpProcess(url: string) {
 
         const fileName = `${date}${id}`;
 
-        let envPath;
-        if (process.env.IMAGES_PATH) {
-            envPath = process.env.IMAGES_PATH;
-        } else {
-            console.log('no ENV variable loaded for path');
-
-            envPath = `${__dirname}/../../../image_files_test`;
-        }
+        let envPath = env.IMAGES_PATH;
 
         const path = Path.resolve(envPath, fileName);
 
