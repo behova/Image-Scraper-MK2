@@ -35,6 +35,7 @@ async function sharpProcess(url: string) {
                 return path;
             } else {
                 console.log('problem with image buffer');
+                return undefined;
             }
         }
     } catch (error) {

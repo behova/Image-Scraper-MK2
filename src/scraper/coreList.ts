@@ -1,9 +1,9 @@
 import fourChanCore from './cores/fourchan/fourchan.js';
 import redditCore from './cores/reddit/reddit.js';
 
-const coreList = [fourChanCore, redditCore];
-
 export function getCore() {
+    const coreList = [fourChanCore, redditCore];
+
     let number = Math.floor(Math.random() * coreList.length);
     return coreList[number];
 }

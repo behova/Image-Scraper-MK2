@@ -4,8 +4,6 @@ import { getCore, getScrollAmount } from './coreList.js';
 import prisma from '../server/prisma-client.js';
 import sharpProcess from './processing/sharpProcess.js';
 
-//needs try-catch add finally blocks
-
 async function verifyFile(path: string): Promise<boolean> {
     const timeOut = 5000;
     let totalTime = 0;
@@ -57,7 +55,7 @@ async function scraper() {
                 if (exists === null) {
                     const fullURL = await sharpProcess(data[i][1]);
 
-                    if (fullURL !== undefined) {
+                    if (fullURL) {
                         object.fullURL = `${fullURL}.png`;
                         object.thumbURL = `${fullURL}-thumb.jpeg`;
 
@@ -72,7 +70,11 @@ async function scraper() {
                             // object.pallet = pallet;
 
                             objects.push(object);
+                        } else {
+                            return;
                         }
+                    } else {
+                        return;
                     }
                 } else if (exists === undefined) {
                     console.log('could not verify duplicate with DB');

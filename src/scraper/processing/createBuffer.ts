@@ -18,7 +18,7 @@ async function createBuffer(url: string) {
             console.error('Axios sharpProcess', error.request);
         } else {
             // Something happened in setting up the request that triggered an Error
-            console.error('sharpProcess', error);
+            console.error('createBuffer', error);
         }
     }
 }
