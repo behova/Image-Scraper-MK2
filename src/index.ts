@@ -29,8 +29,8 @@ async function runCull(sizeToCullAt: number) {
 function index() {
     dotenv.config(); //load environment variables from .env
 
-    const scraperTimer = new CronJob('0 */15 * * * *', function () {
-        const delay = Math.floor(Math.random() * (360000 - 300000) + 300000);
+    const scraperTimer = new CronJob('0 0 */4 * * *', function () {
+        const delay = Math.floor(Math.random() * (3.6e6 - 300000) + 300000);
 
         setTimeout(main, delay);
 
