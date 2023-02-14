@@ -3,8 +3,10 @@ import { DB_Image } from '../interfaces/interfacesIndex.js';
 import { getCore, getScrollAmount } from './coreList.js';
 import prisma from '../server/prisma-client.js';
 import sharpProcess from './processing/sharpProcess.js';
+import { env } from '../interfaces/interfacesIndex.js';
 
-async function verifyFile(path: string): Promise<boolean> {
+async function verifyFile(fileName: string): Promise<boolean> {
+    const envPath = env.IMAGES_PATH;
     const timeOut = 5000;
     let totalTime = 0;
     let checkTime = timeOut / 10;
@@ -14,7 +16,7 @@ async function verifyFile(path: string): Promise<boolean> {
             const timer = setInterval(function () {
                 totalTime += checkTime;
 
-                let fileExist = fs.existsSync(path);
+                let fileExist = fs.existsSync(`${envPath}/${fileName}`);
 
                 if (fileExist || totalTime >= timeOut) {
                     clearInterval(timer);
@@ -53,11 +55,11 @@ async function scraper() {
                 const exists = await prisma.findUnique(object.source);
 
                 if (exists === null) {
-                    const fullURL = await sharpProcess(data[i][1]);
+                    const fileName = await sharpProcess(data[i][1]);
 
-                    if (fullURL) {
-                        object.fullURL = `${fullURL}.png`;
-                        object.thumbURL = `${fullURL}-thumb.jpeg`;
+                    if (fileName) {
+                        object.fullURL = `${fileName}.png`;
+                        object.thumbURL = `${fileName}-thumb.jpeg`;
 
                         let verfiedThumb = await verifyFile(object.thumbURL);
                         let verfiedFull = await verifyFile(object.fullURL);

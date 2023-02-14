@@ -32,7 +32,7 @@ async function sharpProcess(url: string) {
                 .toFile(`${path}-thumb.jpeg`);
 
             if (result && thumb) {
-                return path;
+                return fileName;
             } else {
                 console.log('problem with image buffer');
                 return undefined;
